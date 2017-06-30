@@ -48,6 +48,8 @@ public class Deck{
             //Random int based on the seed, from 0-size of the deck at the time of shuffling
             Random ranGen = new Random(seed);
 
+            //New list to add elements to as we "shuffle" the deck of cards. Initialize with null values to allow
+            //us to add a card to a specific index in the list rather than just appending to the end
             List<Card> shuffledList = new ArrayList<Card>(Collections.nCopies(deckSize, null));
 
             //Iterate over the current cards, and attempt to slot it into a randomized position
@@ -71,7 +73,6 @@ public class Deck{
         Removes and returns the card from the "top" of the deck
         Returns null when deck is empty
      */
-
     public Card dealOneCard(){
         if(cards != null && cards.size() > 0){
             Card topCard = cards.iterator().next();
@@ -83,7 +84,7 @@ public class Deck{
     }
 
     /*
-        Clears the deck, and reassembles it in order with all 52 cards
+        Clears the deck, and reassembles it, in order, with all 52 cards
      */
     public void resetDeck(){
         cards = new LinkedHashSet<>();
