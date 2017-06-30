@@ -29,7 +29,8 @@ public class Deck{
     }
 
     /*
-        Call shuffle with current time as the seed
+        Shuffle without supplying a seed
+        Calls shuffle(seed) using current time as the seed
      */
     public void shuffle(){
         shuffle(new Date().getTime());
@@ -37,7 +38,7 @@ public class Deck{
 
 
     /*
-        Randomize the order of cards in the deck
+        Randomize the order of cards in the deck, using a supplied seed
      */
     public void shuffle(Long seed){
         //Can't shuffle a deck with no cards
@@ -46,26 +47,25 @@ public class Deck{
             int deckSize = cards.size();
 
             //Random int based on the seed, from 0-size of the deck at the time of shuffling
-            Random ranGen = new Random(seed);
+            Random randGen = new Random(seed);
 
-            //New list to add elements to as we "shuffle" the deck of cards. Initialize with null values to allow
-            //us to add a card to a specific index in the list rather than just appending to the end
-            List<Card> shuffledList = new ArrayList<Card>(Collections.nCopies(deckSize, null));
+            //To add elements to as we "shuffle" the deck of cards
+            Card[] shuffledCards = new Card[deckSize];
 
-            //Iterate over the current cards, and attempt to slot it into a randomized position
-            //in the new shuffledList
-            Iterator<Card> itr = cards.iterator();
-            while(itr.hasNext()){
-                Card curCard = itr.next();
-                int ranSlot = ranGen.nextInt(deckSize);
-                shuffledList.add(ranSlot, curCard);
+            //Iterate over the deck, and attempt to slot each into a randomized position in the new shuffled array
+            for(Card curCard : cards){
+                int randSlot = randGen.nextInt(deckSize);
+
+                //The slot could have already been taken, so we circle through the list
+                //until the next open slot is found
+                while(shuffledCards[randSlot] != null){
+                    randSlot = (randSlot+1)%deckSize;
+                }
+                shuffledCards[randSlot] = curCard;
             }
 
-            //Due to collisions, the list could have multiple nulls remaining as List.Add keeps moving right until it
-            //finds an empty slot for the card. Remove those and we're back down to the same size deck we started with
-            shuffledList.removeAll(Collections.singleton(null));
 
-            cards = new LinkedHashSet<Card>(shuffledList);
+            cards = new LinkedHashSet<Card>(Arrays.asList(shuffledCards));
         }
     }
 
