@@ -41,8 +41,10 @@ public class DeckTest {
         //We're using a known seed, so we know the top card is always 7 of Clubs, which is different
         //than the card of the sorted deck we started with
         Card sevenClubs = new Card(Card.Ranks.Seven, Card.Suits.Clubs);
-        assertEquals(sevenClubs, deck.dealOneCard());
+        Card topCard = deck.dealOneCard();
         assertFalse(deck.getCards().iterator().next().equals(startingDeck.iterator().next()));
+        assertEquals(sevenClubs, topCard);
+
     }
 
     @Test
