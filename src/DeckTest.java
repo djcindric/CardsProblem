@@ -22,10 +22,10 @@ public class DeckTest {
         //Deck should have 52 unique cards
         assertEquals(52, deck.getCards().size());
 
-        //All 52 cards are present in the deck. You can't have duplicates
+        //All 52 possible cards are present in the deck. You can't add duplicates
         assertFalse(deck.insertCard(new Card(Card.Ranks.Eight, Card.Suits.Clubs)));
 
-        //Deck should still
+        //Deck should still have just 52 cards after attempting to add a duplicate
         assertEquals(52, deck.getCards().size());
     }
 
